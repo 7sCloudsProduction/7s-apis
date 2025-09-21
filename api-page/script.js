@@ -399,15 +399,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // --- Render Kategori dan Item API ---
-    const renderApiCategories = () => {
-        if (!DOM.apiContent || !settings.categories || !settings.categories.length) {
-            displayErrorState("Tidak ada kategori API yang ditemukan.");
-            return;
-        }
-        DOM.apiContent.innerHTML = ''; 
-
-        settings.categories.forEach((category, categoryIndex) => {
-            const sortedItems = category.items.sort((a, b) => a.name.localeCompare(b.name));
+    const sortedItems = Array.isArray(category.items) 
+    ? category.items.sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+    : [];
             
             const categorySection = document.createElement('section'); 
             categorySection.id = `category-${category.name.toLowerCase().replace(/\s+/g, '-')}`;
@@ -970,4 +964,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Jalankan inisialisasi utama
     init();
+
 });
